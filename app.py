@@ -493,7 +493,7 @@ if not st.session_state.conversation_started and not st.session_state.chat_histo
     **Remember:** If you're in crisis, please use the emergency resources in the sidebar immediately.
     """)
 
-# Enhanced quick start section with better state management
+# Enhanced quick start section with proper state management
 if not st.session_state.chat_history:
     st.markdown("### 💭 How are you feeling today?")
     st.markdown("*Choose a button below to get started, or type your own message*")
@@ -505,17 +505,7 @@ if not st.session_state.chat_history:
             user_input = "I'm feeling really anxious and worried about everything. My mind won't stop racing."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.conversation_started = True
-            # Force immediate processing
-            with st.spinner("💭 Thinking carefully about your message..."):
-                response_content, tool_used, status = get_ai_response(user_input)
-            
-            st.session_state.chat_history.append({
-                "role": "assistant", 
-                "content": response_content,
-                "tool": tool_used,
-                "timestamp": datetime.now().strftime("%H:%M"),
-                "status": status
-            })
+            st.session_state.process_message = user_input
             st.rerun()
     
     with col2:
@@ -523,17 +513,7 @@ if not st.session_state.chat_history:
             user_input = "I'm feeling really sad and down lately. Everything feels heavy and difficult."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.conversation_started = True
-            # Force immediate processing
-            with st.spinner("💭 Thinking carefully about your message..."):
-                response_content, tool_used, status = get_ai_response(user_input)
-            
-            st.session_state.chat_history.append({
-                "role": "assistant", 
-                "content": response_content,
-                "tool": tool_used,
-                "timestamp": datetime.now().strftime("%H:%M"),
-                "status": status
-            })
+            st.session_state.process_message = user_input
             st.rerun()
     
     with col3:
@@ -541,17 +521,7 @@ if not st.session_state.chat_history:
             user_input = "I'm feeling completely overwhelmed and stressed out. There's so much pressure."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.conversation_started = True
-            # Force immediate processing
-            with st.spinner("💭 Thinking carefully about your message..."):
-                response_content, tool_used, status = get_ai_response(user_input)
-            
-            st.session_state.chat_history.append({
-                "role": "assistant", 
-                "content": response_content,
-                "tool": tool_used,
-                "timestamp": datetime.now().strftime("%H:%M"),
-                "status": status
-            })
+            st.session_state.process_message = user_input
             st.rerun()
     
     with col4:
@@ -559,17 +529,7 @@ if not st.session_state.chat_history:
             user_input = "I'm feeling really lonely and disconnected from everyone around me."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.conversation_started = True
-            # Force immediate processing
-            with st.spinner("💭 Thinking carefully about your message..."):
-                response_content, tool_used, status = get_ai_response(user_input)
-            
-            st.session_state.chat_history.append({
-                "role": "assistant", 
-                "content": response_content,
-                "tool": tool_used,
-                "timestamp": datetime.now().strftime("%H:%M"),
-                "status": status
-            })
+            st.session_state.process_message = user_input
             st.rerun()
     
     # Additional quick start options
@@ -581,17 +541,7 @@ if not st.session_state.chat_history:
             user_input = "I'm feeling really angry and frustrated. I can't seem to control these feelings."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.conversation_started = True
-            # Force immediate processing
-            with st.spinner("💭 Thinking carefully about your message..."):
-                response_content, tool_used, status = get_ai_response(user_input)
-            
-            st.session_state.chat_history.append({
-                "role": "assistant", 
-                "content": response_content,
-                "tool": tool_used,
-                "timestamp": datetime.now().strftime("%H:%M"),
-                "status": status
-            })
+            st.session_state.process_message = user_input
             st.rerun()
     
     with col6:
@@ -599,17 +549,7 @@ if not st.session_state.chat_history:
             user_input = "I'm feeling confused and lost. I don't know what to do or which direction to go."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.conversation_started = True
-            # Force immediate processing
-            with st.spinner("💭 Thinking carefully about your message..."):
-                response_content, tool_used, status = get_ai_response(user_input)
-            
-            st.session_state.chat_history.append({
-                "role": "assistant", 
-                "content": response_content,
-                "tool": tool_used,
-                "timestamp": datetime.now().strftime("%H:%M"),
-                "status": status
-            })
+            st.session_state.process_message = user_input
             st.rerun()
     
     with col7:
@@ -617,17 +557,7 @@ if not st.session_state.chat_history:
             user_input = "I'm grieving and dealing with a significant loss. The pain feels unbearable."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.conversation_started = True
-            # Force immediate processing
-            with st.spinner("💭 Thinking carefully about your message..."):
-                response_content, tool_used, status = get_ai_response(user_input)
-            
-            st.session_state.chat_history.append({
-                "role": "assistant", 
-                "content": response_content,
-                "tool": tool_used,
-                "timestamp": datetime.now().strftime("%H:%M"),
-                "status": status
-            })
+            st.session_state.process_message = user_input
             st.rerun()
     
     with col8:
@@ -635,18 +565,12 @@ if not st.session_state.chat_history:
             user_input = "I'm in crisis and need immediate support. I don't know how to cope."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.conversation_started = True
-            # Force immediate processing
-            with st.spinner("💭 Thinking carefully about your message..."):
-                response_content, tool_used, status = get_ai_response(user_input)
-            
-            st.session_state.chat_history.append({
-                "role": "assistant", 
-                "content": response_content,
-                "tool": tool_used,
-                "timestamp": datetime.now().strftime("%H:%M"),
-                "status": status
-            })
+            st.session_state.process_message = user_input
             st.rerun()
+
+# Initialize process_message if not exists
+if "process_message" not in st.session_state:
+    st.session_state.process_message = None
 
 # Enhanced chat input with supportive placeholder
 user_input = st.chat_input("Share what's on your mind... I'm here to listen 💙")
