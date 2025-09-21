@@ -23,6 +23,7 @@ def get_hf_token():
     """Get HuggingFace token from multiple sources"""
     # Try environment variable first
     token = os.getenv("HF_TOKEN", "")
+    print(f"Using HF_TOKEN from environment: {'set' if token else 'not set'}")
     
     # Try Streamlit secrets if environment variable not found
     if not token:
@@ -493,84 +494,69 @@ if not st.session_state.conversation_started and not st.session_state.chat_histo
     **Remember:** If you're in crisis, please use the emergency resources in the sidebar immediately.
     """)
 
-# Enhanced quick start section with proper state management
+# Enhanced quick start section
 if not st.session_state.chat_history:
     st.markdown("### 💭 How are you feeling today?")
     st.markdown("*Choose a button below to get started, or type your own message*")
     
     col1, col2, col3, col4 = st.columns(4)
+    quick_start_pressed = False
     
     with col1:
-        if st.button("😰 Anxious", help="I'm feeling anxious or worried", key="anxious_btn"):
+        if st.button("😰 Anxious", help="I'm feeling anxious or worried"):
             user_input = "I'm feeling really anxious and worried about everything. My mind won't stop racing."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
-            st.session_state.conversation_started = True
-            st.session_state.process_message = user_input
-            st.rerun()
+            quick_start_pressed = True
     
     with col2:
-        if st.button("😔 Sad", help="I'm feeling down or depressed", key="sad_btn"):
+        if st.button("😔 Sad", help="I'm feeling down or depressed"):
             user_input = "I'm feeling really sad and down lately. Everything feels heavy and difficult."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
-            st.session_state.conversation_started = True
-            st.session_state.process_message = user_input
-            st.rerun()
+            quick_start_pressed = True
     
     with col3:
-        if st.button("😤 Stressed", help="I'm feeling overwhelmed", key="stressed_btn"):
+        if st.button("😤 Stressed", help="I'm feeling overwhelmed"):
             user_input = "I'm feeling completely overwhelmed and stressed out. There's so much pressure."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
-            st.session_state.conversation_started = True
-            st.session_state.process_message = user_input
-            st.rerun()
+            quick_start_pressed = True
     
     with col4:
-        if st.button("😞 Lonely", help="I'm feeling isolated", key="lonely_btn"):
+        if st.button("😞 Lonely", help="I'm feeling isolated"):
             user_input = "I'm feeling really lonely and disconnected from everyone around me."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
-            st.session_state.conversation_started = True
-            st.session_state.process_message = user_input
-            st.rerun()
+            quick_start_pressed = True
     
     # Additional quick start options
     st.markdown("---")
     col5, col6, col7, col8 = st.columns(4)
     
     with col5:
-        if st.button("😡 Angry", help="I'm feeling frustrated or angry", key="angry_btn"):
+        if st.button("😡 Angry", help="I'm feeling frustrated or angry"):
             user_input = "I'm feeling really angry and frustrated. I can't seem to control these feelings."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
-            st.session_state.conversation_started = True
-            st.session_state.process_message = user_input
-            st.rerun()
+            quick_start_pressed = True
     
     with col6:
-        if st.button("😕 Confused", help="I'm feeling lost or uncertain", key="confused_btn"):
+        if st.button("😕 Confused", help="I'm feeling lost or uncertain"):
             user_input = "I'm feeling confused and lost. I don't know what to do or which direction to go."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
-            st.session_state.conversation_started = True
-            st.session_state.process_message = user_input
-            st.rerun()
+            quick_start_pressed = True
     
     with col7:
-        if st.button("💔 Grieving", help="I'm dealing with loss", key="grieving_btn"):
+        if st.button("💔 Grieving", help="I'm dealing with loss"):
             user_input = "I'm grieving and dealing with a significant loss. The pain feels unbearable."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
-            st.session_state.conversation_started = True
-            st.session_state.process_message = user_input
-            st.rerun()
+            quick_start_pressed = True
     
     with col8:
-        if st.button("🆘 Crisis", help="I need immediate support", key="crisis_btn"):
+        if st.button("🆘 Crisis", help="I need immediate support"):
             user_input = "I'm in crisis and need immediate support. I don't know how to cope."
             st.session_state.chat_history.append({"role": "user", "content": user_input})
-            st.session_state.conversation_started = True
-            st.session_state.process_message = user_input
-            st.rerun()
-
-# Initialize process_message if not exists
-if "process_message" not in st.session_state:
-    st.session_state.process_message = None
+            quick_start_pressed = True
+    
+    if quick_start_pressed:
+        st.session_state.conversation_started = True
+        st.rerun()
 
 # Enhanced chat input with supportive placeholder
 user_input = st.chat_input("Share what's on your mind... I'm here to listen 💙")
